@@ -1,0 +1,73 @@
+version: '3.7'
+
+services:
+  agent_mvn:
+    build: agents/mvn
+    init: true
+    command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
+    restart: "unless-stopped"
+    depends_on:
+    - server
+    volumes:
+    - agent_mvn:/home/bamboo/bamboo-agent-home
+    extra_hosts:
+    - "${SERVER_BROKER_IP_OR_HOSTNAME}:${SERVER_IP}"
+    networks:
+    - bamboo
+  agent_java:
+    image: atlassian/bamboo-agent-base:6.8.1
+    init: true
+    command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
+    restart: "unless-stopped"
+    depends_on:
+    - server
+    volumes:
+    - agent_java:/home/bamboo/bamboo-agent-home
+    extra_hosts:
+    - "${SERVER_BROKER_IP_OR_HOSTNAME}:${SERVER_IP}"
+    networks:
+    - bamboo    
+  agent_dind:
+    build: agents/dind
+    init: true
+    privileged: true
+    user: root
+    command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
+    restart: "unless-stopped"
+    depends_on:
+    - server
+    volumes:
+    - agent_dind:/home/bamboo/bamboo-agent-home
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ${AGENT_DIND_BUILD_DIR}:${AGENT_DIND_BUILD_DIR}
+#    - dindbuilddir:/root/bamboo-agent-home/xml-data/build-dir/
+    extra_hosts:
+    - "${SERVER_BROKER_IP_OR_HOSTNAME}:${SERVER_IP}"
+    networks:
+    - bamboo
+    
+  agent_dind2:
+    build: agents/dind
+    init: true
+    privileged: true
+    user: root
+    command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
+    restart: "unless-stopped"
+    depends_on:
+    - server
+    volumes:
+    - agent_dind2:/home/bamboo/bamboo-agent-home
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ${AGENT_DIND_BUILD_DIR}:${AGENT_DIND_BUILD_DIR}
+#    - dindbuilddir:/root/bamboo-agent-home/xml-data/build-dir/
+    extra_hosts:
+    - "${SERVER_BROKER_IP_OR_HOSTNAME}:${SERVER_IP}"
+    networks:
+    - bamboo
+
+volumes:
+  agent_mvn:
+  agent_java:
+  agent_dind:
+  agent_dind2:
+  # dindbuilddir:

@@ -1,4 +1,6 @@
-FROM atlassian/bamboo-agent-base:6.8.1
+ARG BAMBOO_VERSION
+
+FROM atlassian/bamboo-agent-base:${BAMBOO_VERSION}
 
 USER root
 # RUN wget http://get.docker.com/builds/Linux/x86_64/docker-latest.tgz

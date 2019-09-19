@@ -51,7 +51,10 @@ services:
     - bamboo
     
   agent_dind2:
-    build: agents/dind
+    build:
+      context: agents/dind
+      args:
+        BAMBOO_VERSION: ${BAMBOO_VERSION}
     init: true
     privileged: true
     user: root

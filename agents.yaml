@@ -2,7 +2,10 @@ version: '3.7'
 
 services:
   agent_mvn:
-    build: agents/mvn
+    build:
+      context: agents/mvn
+      args:
+        BAMBOO_VERSION: ${BAMBOO_VERSION}
     init: true
     command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
     restart: "unless-stopped"

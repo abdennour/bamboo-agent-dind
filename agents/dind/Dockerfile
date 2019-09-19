@@ -7,7 +7,7 @@ USER root
 # RUN tar -xvzf docker-latest.tgz
 # RUN mv docker/* /usr/bin/
 ENV DOCKERVERSION=18.09.0
-RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+RUN curl -O https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar -xzvf docker-${DOCKERVERSION}.tgz --strip 1 \
                  -C /usr/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz

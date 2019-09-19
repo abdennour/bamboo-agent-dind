@@ -15,7 +15,7 @@ services:
     networks:
     - bamboo
   agent_java:
-    image: atlassian/bamboo-agent-base:6.8.1
+    image: atlassian/bamboo-agent-base:${BAMBOO_VERSION}
     init: true
     command: ["http://${SERVER_BROKER_IP_OR_HOSTNAME}:8085"]
     restart: "unless-stopped"
